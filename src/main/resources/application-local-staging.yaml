@@ -1,0 +1,23 @@
+fint:
+  org-id: fintlabs.no
+  flyt:
+    resource-gateway:
+      authorization:
+        enable: true
+  client:
+    base-url: https://beta.felleskomponent.no
+  kafka:
+    default-replicas: 1
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+  kafka:
+    bootstrap-servers: localhost:9092
+  datasource:
+    hikari:
+      schema: fylke
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
