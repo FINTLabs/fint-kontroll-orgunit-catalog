@@ -13,6 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(schema = "public")
 public class OrgUnit {
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +27,28 @@ public class OrgUnit {
     @ElementCollection
     private List<String> childrenRef = new ArrayList<>();
     private String managerRef;
+
+
+    public SimpleOrgUnit simpleOrgUnit() {
+        return SimpleOrgUnit
+                .builder()
+                .id(id)
+                .name(name)
+                .build();
+    }
+
+    public DetaildOrgUnit detaildOrgUnit() {
+        return DetaildOrgUnit
+                .builder()
+                .id(id)
+                .name(name)
+                .shortName(shortName)
+                .parentRef(parentRef)
+                .childrenRef(childrenRef)
+                .build();
+
+    }
+
+
 
 }
