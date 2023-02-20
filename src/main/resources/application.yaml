@@ -13,7 +13,7 @@ fint:
     registration-id: fint
   kontroll:
     orgunit-catalog:
-      pagesize: 20
+      pagesize: 50
 
 spring:
   security:

@@ -6,17 +6,25 @@ fint:
         enable: true
   client:
     base-url: https://beta.felleskomponent.no
+  application-id: fint-kontroll-orgunit-catalog
   kafka:
     default-replicas: 1
+    topic:
+      org-id: ${fint.org-id}
+      domain-context: ressurs
+    application-id: ${fint.application-id}
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
+      #ddl-auto: create
   kafka:
     bootstrap-servers: localhost:9092
+    consumer:
+      group-id: ${fint.application-id}
   datasource:
     hikari:
-      schema: fylke
+      schema: public
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
