@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -24,12 +23,12 @@ public class OrgUnit {
     private String name;
     private String shortName;
     private String parentRef;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> childrenRef = new ArrayList<>();
     private String managerRef;
 
 
-    public SimpleOrgUnit simpleOrgUnit() {
+    public SimpleOrgUnit toSimpleOrgUnit() {
         return SimpleOrgUnit
                 .builder()
                 .id(id)
@@ -37,7 +36,7 @@ public class OrgUnit {
                 .build();
     }
 
-    public DetaildOrgUnit detaildOrgUnit() {
+    public DetaildOrgUnit toDetaildOrgUnit() {
         return DetaildOrgUnit
                 .builder()
                 .id(id)

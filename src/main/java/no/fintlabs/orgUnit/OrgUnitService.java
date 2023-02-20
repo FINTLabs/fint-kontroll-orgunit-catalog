@@ -2,6 +2,7 @@ package no.fintlabs.orgUnit;
 
 import no.fintlabs.repository.OrgUnitRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.function.Consumer;
 
@@ -30,6 +31,11 @@ public class OrgUnitService {
             orgUnit.setId(existingorgUnit.getId());
             orgUnitRepository.save(orgUnit);
         };
+    }
+
+    public Mono<DetaildOrgUnit> getDetaildOrgUnitById(Long id) {
+        return Mono.just(orgUnitRepository.findById(id)
+                .map(OrgUnit::toDetaildOrgUnit).orElse(new DetaildOrgUnit()));
     }
 
 
