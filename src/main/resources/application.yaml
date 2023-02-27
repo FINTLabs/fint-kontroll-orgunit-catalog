@@ -14,7 +14,7 @@ fint:
   kontroll:
     orgunit-catalog:
       pagesize: 50
-
+      load-test-orgunits: false
 spring:
   security:
     oauth2:

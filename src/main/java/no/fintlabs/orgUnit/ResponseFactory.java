@@ -63,7 +63,7 @@ public class ResponseFactory {
 
         return new ResponseEntity<>(
                 Map.of("totalItems", userPage.getTotalElements(),
-                        "users", userPage.getContent(),
+                        "orgUnits", userPage.getContent(),
                         "currentPage", userPage.getNumber(),
                         "totalPages", userPage.getTotalPages()
                 ),
