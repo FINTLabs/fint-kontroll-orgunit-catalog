@@ -3,10 +3,12 @@ package no.fintlabs.orgUnit;
 import no.fintlabs.kafka.entity.EntityConsumerFactoryService;
 import no.fintlabs.kafka.entity.topic.EntityTopicNameParameters;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 
+@ConditionalOnProperty(value = "fint.kontroll.orgunit-catalog.load-test-orgunits", havingValue = "false")
 @Configuration
 public class OrgUnitConsumerConfiguration {
     @Bean
