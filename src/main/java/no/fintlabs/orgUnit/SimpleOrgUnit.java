@@ -11,4 +11,5 @@ import lombok.Setter;
 public class SimpleOrgUnit {
     private Long id;
     private String name;
+    private String organisationUnitId;
 }

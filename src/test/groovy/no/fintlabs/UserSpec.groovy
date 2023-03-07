@@ -10,6 +10,7 @@ class UserSpec extends Specification {
                 .builder()
                 .id(4711L)
                 .name("OrgUnit navn")
+                .organisationUnitId("1234")
                 .build()
 
         when:
@@ -18,6 +19,7 @@ class UserSpec extends Specification {
         then:
         simpleOrgUnit.getId() == orgUnit.getId()
         simpleOrgUnit.getName() == orgUnit.getName()
+        simpleOrgUnit.getOrganisationUnitId() == orgUnit.getOrganisationUnitId()
 
 
     }

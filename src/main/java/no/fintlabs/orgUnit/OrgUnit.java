@@ -33,6 +33,7 @@ public class OrgUnit {
                 .builder()
                 .id(id)
                 .name(name)
+                .organisationUnitId(organisationUnitId)
                 .build();
     }
 
