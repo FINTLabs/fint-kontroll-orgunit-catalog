@@ -34,6 +34,8 @@ public class OrgUnit {
                 .id(id)
                 .name(name)
                 .organisationUnitId(organisationUnitId)
+                .parentRef(parentRef)
+                .childrenRef(childrenRef)
                 .build();
     }
 
