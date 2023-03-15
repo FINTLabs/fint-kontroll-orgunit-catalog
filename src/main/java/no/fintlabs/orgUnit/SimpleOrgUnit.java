@@ -16,5 +16,5 @@ public class SimpleOrgUnit {
     private String name;
     private String organisationUnitId;
     private String parentRef;
-    private List<String> childrenRef; // = new ArrayList<>();
+    private List<String> childrenRef;
 }

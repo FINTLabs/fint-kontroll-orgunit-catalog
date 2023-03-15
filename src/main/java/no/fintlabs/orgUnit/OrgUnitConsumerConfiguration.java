@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 
-@ConditionalOnProperty(value = "fint.kontroll.orgunit-catalog.load-test-orgunits", havingValue = "false")
 @Configuration
 public class OrgUnitConsumerConfiguration {
     @Bean
