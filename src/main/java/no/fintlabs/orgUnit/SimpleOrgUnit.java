@@ -16,5 +16,6 @@ public class SimpleOrgUnit {
     private String name;
     private String organisationUnitId;
     private String parentRef;
+    private String parentName;
     private List<String> childrenRef;
 }
