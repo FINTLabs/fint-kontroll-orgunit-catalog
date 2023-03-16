@@ -3,7 +3,6 @@ package no.fintlabs.orgUnit;
 import no.fintlabs.repository.OrgUnitRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-
 import java.util.function.Consumer;
 
 @Service
@@ -39,16 +38,11 @@ public class OrgUnitService {
     }
 
 
-//    public OrgUnit save(OrgUnit orgUnit) {
-//        String orgUnitResourceId =   orgUnit.getResourceId();
-//        OrgUnit existingOrgUnit = orgUnitRepository.findOrgUnitByResourceIdEqualsIgnoreCase(orgUnitResourceId).orElse(null);
-//        if (existingOrgUnit == null) {
-//            OrgUnit newOrgUnit = orgUnitRepository.save(orgUnit);
-//            return newOrgUnit;
-//        } else {
-//            orgUnit.setId(existingOrgUnit.getId());
-//            return orgUnitRepository.save(orgUnit);
-//
-//        }
-//    }
+    public String getOrgUnitNameByOrgUnitId(String id){
+        return orgUnitRepository.findByOrganisationUnitIdIgnoreCase(id)
+                .map(orgUnit -> orgUnit.getName())
+                .orElse("");
+    }
+
+
 }
