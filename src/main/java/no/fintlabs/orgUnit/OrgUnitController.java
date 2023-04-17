@@ -25,8 +25,8 @@ public class OrgUnitController {
         this.responseFactory = responseFactory;
     }
 
-    @GetMapping
-    public ResponseEntity<Map<String, Object>> getOrgUnits(@AuthenticationPrincipal Jwt jwt,
+
+    public ResponseEntity<Map<String, Object>> getOrgUnitsOData(@AuthenticationPrincipal Jwt jwt,
                                                            @RequestParam(value="$filter",required = false) String filter,
                                                            @RequestParam(defaultValue = "0") int page,
                                                            @RequestParam(defaultValue = "${fint.kontroll.orgunit-catalog.pagesize:20}") int size) {
@@ -46,5 +46,13 @@ public class OrgUnitController {
         return Flux.fromIterable(hierarchyOrgUnitService.getOrgUnitStructure());
     }
 
+    @GetMapping()
+    public ResponseEntity<Map<String,Object>> getOrgUnits(@AuthenticationPrincipal Jwt jwt,
+                                                          @RequestParam(value = "search", defaultValue = "%") String search,
+                                                          @RequestParam(value="page", defaultValue = "0") int page,
+                                                          @RequestParam(value="size", defaultValue = "${fint.kontroll.orgunit-catalog.pagesize:20}") int size){
+        log.info("Fetching orgunits with searchparam: " + search);
+        return responseFactory.toResponseEntity(search,page,size);
+    }
 
 }

@@ -16,12 +16,11 @@ fint:
   kontroll:
     orgunit-catalog:
       pagesize: 50
-      load-test-orgunits: true
 spring:
   jpa:
     hibernate:
-      ddl-auto: validate
-      #ddl-auto: create
+      #ddl-auto: validate
+      ddl-auto: create
   kafka:
     bootstrap-servers: localhost:9092
     consumer:

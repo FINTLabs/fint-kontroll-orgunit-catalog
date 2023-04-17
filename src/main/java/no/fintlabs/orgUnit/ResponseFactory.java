@@ -70,4 +70,16 @@ public class ResponseFactory {
                 HttpStatus.OK
         );
     }
+
+    public ResponseEntity<Map<String, Object>> toResponseEntity(String search, int page, int size) {
+        List<OrgUnit> orgUnits = orgUnitRepository.findOrgUnitsByOrgUnitName(search);
+        ResponseEntity<Map<String ,Object>> entity = toResponseEntity(
+                toPage(orgUnits
+                        .stream()
+                        .map(OrgUnit::toSimpleOrgUnit).toList(),
+                        PageRequest.of(page,size))
+        );
+
+        return entity;
+    }
 }
