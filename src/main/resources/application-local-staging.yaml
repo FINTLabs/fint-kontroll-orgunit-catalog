@@ -11,7 +11,7 @@ fint:
     default-replicas: 1
     topic:
       org-id: ${fint.org-id}
-      domain-context: ressurs
+      domain-context: kontroll
     application-id: ${fint.application-id}
   kontroll:
     orgunit-catalog:
@@ -20,17 +20,21 @@ spring:
   jpa:
     hibernate:
       #ddl-auto: validate
-      ddl-auto: create
+      ddl-auto: none
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
       group-id: ${fint.application-id}
   datasource:
     hikari:
-      schema: public
+      schema: orgunits
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: postgres
+  flyway:
+    locations: classpath:db/migration/
+    lock-retry-count: 300
+    #baselineOnMigrate: true
 server:
   port: 8081
