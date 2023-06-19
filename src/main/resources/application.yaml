@@ -24,10 +24,12 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://idp.felleskomponent.no/nidp/oauth/nam
-  server:
-    port: 8081
+  profiles:
+    include:
+      - kafka
+      - db
 logging:
   level:
     root: INFO
     org.apache.kafka: INFO
-    org.hibernate.SQL: DEBUG
+    org.hibernate.SQL: INFO
