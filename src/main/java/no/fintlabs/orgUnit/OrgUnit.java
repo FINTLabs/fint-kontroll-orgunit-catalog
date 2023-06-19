@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(schema = "public")
+@Table(schema = "orgunits")
 public class OrgUnit {
 
     @Id()

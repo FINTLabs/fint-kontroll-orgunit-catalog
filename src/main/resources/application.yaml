@@ -19,21 +19,15 @@ spring:
     bootstrap-servers: localhost:9092
     consumer:
       group-id: ${fint.application-id}
-  jpa:
-    hibernate:
-      #ddl-auto: validate
-      ddl-auto: create
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: https://idp.felleskomponent.no/nidp/oauth/nam
-  datasource:
-    hikari:
-      schema: public
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: postgres
   server:
     port: 8081
+logging:
+  level:
+    root: INFO
+    org.apache.kafka: INFO
+    org.hibernate.SQL: DEBUG
