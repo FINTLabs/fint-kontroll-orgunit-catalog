@@ -1,24 +1,15 @@
 fint:
   application-id: fint-kontroll-orgunit-catalog
-  kafka:
-    default-replicas: 1
-    topic:
-      org-id: ${fint.org-id}
-      domain-context: kontroll
-    application-id: ${fint.application-id}
-  client:
-    password: ''
-    username: ''
-    base-url: https://beta.felleskomponent.no
-    registration-id: fint
+  cache:
+    defaultCacheEntryTimeToLiveMillis: 518400000
+    defaultCacheHeapSize: 1000000
+  integration:
+    service:
+      authorized-role: https://role-catalog.vigoiks.no/vigo/samtykke/user
   kontroll:
     orgunit-catalog:
       pagesize: 50
 spring:
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: ${fint.application-id}
   security:
     oauth2:
       resourceserver:
@@ -32,4 +23,3 @@ logging:
   level:
     root: INFO
     org.apache.kafka: INFO
-    org.hibernate.SQL: INFO
