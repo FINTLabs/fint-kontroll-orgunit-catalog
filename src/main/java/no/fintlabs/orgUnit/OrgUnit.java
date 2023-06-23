@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "org_units")
+@Table(name = "org_unit")
 public class OrgUnit {
 
     @Id()
