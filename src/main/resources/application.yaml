@@ -22,6 +22,9 @@ spring:
     include:
       - kafka
       - db
+  data:
+    rest:
+      base-path: /beta/fintlabs-no
 logging:
   level:
     root: INFO
