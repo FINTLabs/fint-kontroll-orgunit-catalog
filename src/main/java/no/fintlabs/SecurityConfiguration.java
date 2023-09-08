@@ -1,29 +1,27 @@
 package no.fintlabs;
 
 
-import no.vigoiks.resourceserver.security.FintJwtUserConverter;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 
-@EnableWebFluxSecurity
+@EnableWebSecurity
 public class SecurityConfiguration {
 
-//    @Value("${fint.integration.service.authorized-role:rolle}")
-//    private String authorizedRole;
+    //    @Value("${fint.integration.service.authorized-role:rolle}")
+    //    private String authorizedRole;
     @Bean
-    SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+    SecurityFilterChain springSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeExchange((authorize) -> authorize
-                        .pathMatchers("/**")
-                        .permitAll()
-                        //.hasRole(authorizedRole)
-                        .anyExchange()
-                        .authenticated())
+                .authorizeRequests()
+                .antMatchers("/**")
+                .permitAll()
+                //.hasRole(authorizedRole)
+                .and()
                 .oauth2ResourceServer((resourceServer) -> resourceServer
                         .jwt()
-                        .jwtAuthenticationConverter(new FintJwtUserConverter()));
+                        .jwtAuthenticationConverter(new JwtUserConverter()));
         return http.build();
     }
 }

@@ -5,10 +5,13 @@ import no.vigoiks.resourceserver.security.FintJwtEndUserPrincipal;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -36,14 +39,14 @@ public class OrgUnitController {
     }
 
     @GetMapping("{id}")
-    public Mono<DetaildOrgUnit> getOrgUnitById(@PathVariable Long id){
+    public DetaildOrgUnit getOrgUnitById(@PathVariable Long id){
         log.info("Fetching orgunit by id: " + id);
         return orgUnitService.getDetaildOrgUnitById(id);
     }
 
     @GetMapping("/orgtree")
-    public Flux<HierarchyOrgUnit> getOrgUnitStructure(){
-        return Flux.fromIterable(hierarchyOrgUnitService.getOrgUnitStructure());
+    public List<HierarchyOrgUnit> getOrgUnitStructure(){
+        return hierarchyOrgUnitService.getOrgUnitStructure();
     }
 
     @GetMapping()
