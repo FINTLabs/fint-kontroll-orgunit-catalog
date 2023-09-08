@@ -10,6 +10,9 @@ fint:
     orgunit-catalog:
       pagesize: 50
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   security:
     oauth2:
       resourceserver:
