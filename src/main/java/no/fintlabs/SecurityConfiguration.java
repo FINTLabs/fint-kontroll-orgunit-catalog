@@ -12,7 +12,7 @@ public class SecurityConfiguration {
     //    @Value("${fint.integration.service.authorized-role:rolle}")
     //    private String authorizedRole;
     @Bean
-    SecurityFilterChain springSecurityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                 .antMatchers("/**")
