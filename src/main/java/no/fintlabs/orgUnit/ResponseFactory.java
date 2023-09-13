@@ -2,6 +2,8 @@ package no.fintlabs.orgUnit;
 
 import lombok.extern.slf4j.Slf4j;
 import no.fint.antlr.FintFilterService;
+import no.fintlabs.opa.AuthorizationClient;
+import no.fintlabs.opa.model.Scope;
 import no.fintlabs.repository.OrgUnitRepository;
 import no.vigoiks.resourceserver.security.FintJwtEndUserPrincipal;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -24,10 +27,12 @@ public class ResponseFactory {
     private final FintFilterService fintFilterService;
     private final OrgUnitRepository orgUnitRepository;
 
+    private final AuthorizationClient authorizationClient;
 
-    public ResponseFactory(FintFilterService fintFilterService, OrgUnitRepository orgUnitRepository) {
+    public ResponseFactory(FintFilterService fintFilterService, OrgUnitRepository orgUnitRepository, AuthorizationClient authorizationClient) {
         this.fintFilterService = fintFilterService;
         this.orgUnitRepository = orgUnitRepository;
+        this.authorizationClient = authorizationClient;
     }
 
     public ResponseEntity<Map<String,Object>> toResponseEntity(
@@ -72,7 +77,15 @@ public class ResponseFactory {
     }
 
     public ResponseEntity<Map<String, Object>> toResponseEntity(String search, int page, int size) {
-        List<OrgUnit> orgUnits = orgUnitRepository.findOrgUnitsByOrgUnitName(search);
+        List<Scope> scopes = authorizationClient.getUserScopes();
+
+        List<String> userOrgUnits = scopes.stream()
+                .filter(scope -> scope.getObjectType().equalsIgnoreCase("orgunit"))
+                .map(Scope::getOrgUnits)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+        List<OrgUnit> orgUnits = orgUnitRepository.findOrgUnitsByOrgUnitName(search, userOrgUnits);
         ResponseEntity<Map<String ,Object>> entity = toResponseEntity(
                 toPage(orgUnits
                         .stream()

@@ -3,6 +3,7 @@ package no.fintlabs.orgUnit;
 import lombok.extern.slf4j.Slf4j;
 import no.fintlabs.repository.OrgUnitRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 @Service
 @Slf4j
 public class HierarchyOrgUnitService {
-    private OrgUnitRepository orgUnitRepository;
+    private final OrgUnitRepository orgUnitRepository;
     private final OrgUnitService orgUnitService;
 
     public HierarchyOrgUnitService(OrgUnitRepository orgUnitRepository, OrgUnitService orgUnitService) {
@@ -50,7 +51,7 @@ public class HierarchyOrgUnitService {
         Map<String, String> parentNameAndId = new HashMap<>();
         String name = orgUnitRepository
                 .findByOrganisationUnitIdIgnoreCase(parentRef)
-                .map(orgUnit -> orgUnit.getName())
+                .map(OrgUnit::getName)
                 .orElse("");
         parentNameAndId.put(parentRef, name);
         return parentNameAndId;

@@ -38,3 +38,9 @@ spring:
     #baselineOnMigrate: true
 server:
   port: 8081
+
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    path: /api/api-docs
