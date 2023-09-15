@@ -1,15 +1,21 @@
 package no.fintlabs.orgUnit;
 
+import no.fintlabs.opa.AuthorizationClient;
+import no.fintlabs.opa.model.Scope;
 import no.fintlabs.repository.OrgUnitRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Service
 public class OrgUnitService {
+    private final AuthorizationClient authorizationClient;
     private final OrgUnitRepository orgUnitRepository;
 
-    public OrgUnitService(OrgUnitRepository orgUnitRepository) {
+    public OrgUnitService(AuthorizationClient authorizationClient, OrgUnitRepository orgUnitRepository) {
+        this.authorizationClient = authorizationClient;
         this.orgUnitRepository = orgUnitRepository;
     }
 
@@ -45,5 +51,15 @@ public class OrgUnitService {
                 .orElse("");
     }
 
+    public List<OrgUnit> findOrgUnitsByOrgUnitName(String search) {
+        List<Scope> scopes = authorizationClient.getUserScopes();
 
+        List<String> userOrgUnits = scopes.stream()
+                .filter(scope -> scope.getObjectType().equalsIgnoreCase("orgunit"))
+                .map(Scope::getOrgUnits)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+        return orgUnitRepository.findOrgUnitsByOrgUnitName(search, userOrgUnits);
+    }
 }
