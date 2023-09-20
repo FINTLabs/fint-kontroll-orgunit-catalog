@@ -1,4 +1,4 @@
-package no.fintlabs.orgUnit;
+package no.fintlabs.orgunit;
 
 import no.fintlabs.opa.AuthorizationClient;
 import no.fintlabs.opa.model.Scope;

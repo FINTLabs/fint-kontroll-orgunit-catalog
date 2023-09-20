@@ -1,4 +1,4 @@
-package no.fintlabs.orgUnit;
+package no.fintlabs.orgunit;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
