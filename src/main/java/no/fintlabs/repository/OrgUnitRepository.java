@@ -1,6 +1,6 @@
 package no.fintlabs.repository;
 
-import no.fintlabs.orgUnit.OrgUnit;
+import no.fintlabs.orgunit.OrgUnit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

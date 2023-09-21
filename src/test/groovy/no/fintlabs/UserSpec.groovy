@@ -1,6 +1,6 @@
 package no.fintlabs
 
-import no.fintlabs.orgUnit.OrgUnit
+import no.fintlabs.orgunit.OrgUnit
 import spock.lang.Specification
 
 class UserSpec extends Specification {

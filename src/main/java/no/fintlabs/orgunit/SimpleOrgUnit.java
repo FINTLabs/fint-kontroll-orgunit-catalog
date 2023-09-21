@@ -1,11 +1,9 @@
-package no.fintlabs.orgUnit;
+package no.fintlabs.orgunit;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
