@@ -1,16 +1,17 @@
 package no.fintlabs.orgunit;
 
 import no.fintlabs.opa.AuthorizationClient;
-import no.fintlabs.opa.model.Scope;
 import no.fintlabs.repository.OrgUnitRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Service
 public class OrgUnitService {
+
     private final AuthorizationClient authorizationClient;
     private final OrgUnitRepository orgUnitRepository;
 
@@ -19,16 +20,28 @@ public class OrgUnitService {
         this.orgUnitRepository = orgUnitRepository;
     }
 
-    public void save(OrgUnit orgUnit){
+    public void save(OrgUnit orgUnit) {
         orgUnitRepository
                 .findOrgUnitByResourceIdEqualsIgnoreCase(orgUnit.getResourceId())
                 .ifPresentOrElse(onSaveExsistingOrgUnit(orgUnit), onSaveNewOrgUnit(orgUnit));
     }
 
+    public List<OrgUnit> searchOrgUnits(String search) {
+        Set<String> userOrgUnitIds = extractUserOrgUnitIds();
+        return orgUnitRepository.findOrgUnitsByOrgUnitName(search, userOrgUnitIds);
+    }
+
+    public String getOrgUnitNameByOrgUnitId(String id) {
+        Set<String> userOrgUnitIds = extractUserOrgUnitIds();
+
+        return orgUnitRepository.findByOrganisationUnitIdIgnoreCase(id)
+                .filter(orgUnit -> userOrgUnitIds.contains(orgUnit.getOrganisationUnitId()))
+                .map(OrgUnit::getName)
+                .orElse("");
+    }
+
     private Runnable onSaveNewOrgUnit(OrgUnit orgUnit) {
-        return ()-> {
-            OrgUnit newOrgUnit = orgUnitRepository.save(orgUnit);
-        };
+        return () -> orgUnitRepository.save(orgUnit);
     }
 
     private Consumer<OrgUnit> onSaveExsistingOrgUnit(OrgUnit orgUnit) {
@@ -38,28 +51,11 @@ public class OrgUnitService {
         };
     }
 
-    public DetaildOrgUnit getDetaildOrgUnitById(Long id) {
-        return orgUnitRepository.findById(id)
-                .map(OrgUnit::toDetaildOrgUnit)
-                .orElse(new DetaildOrgUnit());
-    }
-
-
-    public String getOrgUnitNameByOrgUnitId(String id){
-        return orgUnitRepository.findByOrganisationUnitIdIgnoreCase(id)
-                .map(OrgUnit::getName)
-                .orElse("");
-    }
-
-    public List<OrgUnit> findOrgUnitsByOrgUnitName(String search) {
-        List<Scope> scopes = authorizationClient.getUserScopes();
-
-        List<String> userOrgUnits = scopes.stream()
+    private Set<String> extractUserOrgUnitIds() {
+        return authorizationClient.getUserScopes().stream()
                 .filter(scope -> scope.getObjectType().equalsIgnoreCase("orgunit"))
-                .map(Scope::getOrgUnits)
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-
-        return orgUnitRepository.findOrgUnitsByOrgUnitName(search, userOrgUnits);
+                .flatMap(scope -> scope.getOrgUnits().stream())
+                .collect(Collectors.toSet());
     }
+
 }
