@@ -14,9 +14,26 @@ commonLabels:
 patches:
   - patch: |-
       - op: replace
-        path: "/spec/acls/0/topic"
+        path: "/spec/orgId"
+        value: "fintlabs.no"
+      - op: replace
+        path: "/spec/env/0/value"
+        value: "https://role-catalog.vigoiks.no/vigo/kontroll/user"
+      - op: replace
+        path: "/spec/env/1/value"
+        value: "fintlabs.no"
+      - op: replace
+        path: "/spec/kafka/acls/0/topic"
         value: "fintlabs-no.kontroll.*"
+      - op: replace
+        path: "/spec/kafka/acls/1/topic"
+        value: "fintlabs-no.kontroll.*"
+      - op: replace
+        path: "/spec/ingress/basePath"
+        value: "/fintlabs-no/api/orgunits"
+      - op: replace
+        path: "/spec/url/basePath"
+        value: "/fintlabs-no"
     target:
-      kind: KafkaUserAndAcl
+      kind: Application
       name: fint-kontroll-orgunit-catalog
-
