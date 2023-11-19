@@ -1,13 +1,13 @@
 package no.fintlabs.orgunit;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class SimpleOrgUnit {
     private Long id;

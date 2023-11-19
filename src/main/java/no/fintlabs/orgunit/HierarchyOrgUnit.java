@@ -18,8 +18,8 @@ public class HierarchyOrgUnit {
     private Long id;
     private String name;
     private String organisationUnitId;
-    private Map<String,String> parentNameAndId= new HashMap<>();
-    private Map<String,String> childrenNameAndId = new HashMap<>();
+    private Map<String,String> parentNameAndId;
+    private Map<String,String> childrenNameAndId;
 
 
 }

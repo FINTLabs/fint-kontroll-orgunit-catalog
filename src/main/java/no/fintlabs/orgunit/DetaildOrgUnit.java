@@ -19,5 +19,5 @@ public class DetaildOrgUnit {
     private String name;
     private String shortName;
     private String parentRef;
-    private List<String> childrenRef = new ArrayList<>();
+    private List<String> childrenRef;
 }

@@ -1,6 +1,7 @@
 package no.fintlabs.orgunit;
 
 import lombok.extern.slf4j.Slf4j;
+import no.fintlabs.orgunit.ResponseFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -37,6 +38,7 @@ public class OrgUnitController {
         log.info("Fetching orgunits with searchparam: " + search);
 
         List<OrgUnit> orgUnitsByOrgUnitName = orgUnitService.searchOrgUnits(search);
+
         return ResponseFactory.toResponseEntity(orgUnitsByOrgUnitName,page,size);
     }
 }
