@@ -12,6 +12,10 @@ fint:
     # Override default OPA url for use locally
     opa:
       url: http://localhost:8181/v1/data/accessmanagement
+    authorization:
+      authorized-role: 'https://role-catalog.vigoiks.no/vigo/kontroll/user'
+      authorized-admin-role: 'https://role-catalog.vigoiks.no/vigo/kontroll/admin'
+      authorized-org-id: 'vigo.no'
 spring:
   mvc:
     servlet:
