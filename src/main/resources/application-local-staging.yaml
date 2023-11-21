@@ -15,7 +15,7 @@ fint:
     application-id: ${fint.application-id}
   kontroll:
     orgunit-catalog:
-      pagesize: 50
+      pagesize: 9999
 spring:
   jpa:
     hibernate:

@@ -8,7 +8,7 @@ fint:
       authorized-role: https://role-catalog.vigoiks.no/vigo/samtykke/user
   kontroll:
     orgunit-catalog:
-      pagesize: 50
+      pagesize: 9999
     # Override default OPA url for use locally
     opa:
       url: http://localhost:8181/v1/data/accessmanagement
