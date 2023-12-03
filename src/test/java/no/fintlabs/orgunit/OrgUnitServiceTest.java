@@ -38,7 +38,7 @@ public class OrgUnitServiceTest {
                 .name("Org unit name")
                 .build();
 
-        when(authorizationClient.getUserScopes()).thenReturn(scopes);
+        when(authorizationClient.getUserScopesList()).thenReturn(scopes);
         when(orgUnitRepository.findByOrganisationUnitIdIgnoreCase("198")).thenReturn(Optional.of(orgUnit));
 
         String orgUnitNameByOrgUnitId = orgUnitService.getOrgUnitNameByOrgUnitId("198");
@@ -55,7 +55,7 @@ public class OrgUnitServiceTest {
                 .name("Org unit name 123")
                 .build();
 
-        when(authorizationClient.getUserScopes()).thenReturn(scopes);
+        when(authorizationClient.getUserScopesList()).thenReturn(scopes);
         when(orgUnitRepository.findByOrganisationUnitIdIgnoreCase("123")).thenReturn(Optional.of(orgUnit));
 
         String orgUnitNameByOrgUnitId = orgUnitService.getOrgUnitNameByOrgUnitId("123");
@@ -73,7 +73,7 @@ public class OrgUnitServiceTest {
                 .name(orgUnitName)
                 .build();
 
-        when(authorizationClient.getUserScopes()).thenReturn(scopes);
+        when(authorizationClient.getUserScopesList()).thenReturn(scopes);
         when(orgUnitRepository.findOrgUnitsByOrgUnitName(orgUnitName, Set.of("198", "2", "3"))).thenReturn(List.of(orgUnit));
 
         List<OrgUnit> orgUnits = orgUnitService.searchOrgUnits(orgUnitName);
@@ -84,13 +84,11 @@ public class OrgUnitServiceTest {
 
     private static List<Scope> createUserScopes() {
         Scope scope1 = Scope.builder()
-                .id("1")
                 .objectType("orgunit")
                 .orgUnits(List.of("198", "2", "3"))
                 .build();
 
         Scope scope2 = Scope.builder()
-                .id("2")
                 .objectType("role")
                 .orgUnits(List.of("198", "2", "3"))
                 .build();

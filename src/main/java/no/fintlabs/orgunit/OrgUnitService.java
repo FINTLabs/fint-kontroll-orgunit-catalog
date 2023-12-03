@@ -52,7 +52,7 @@ public class OrgUnitService {
     }
 
     private Set<String> extractUserOrgUnitIds() {
-        return authorizationClient.getUserScopes().stream()
+        return authorizationClient.getUserScopesList().stream()
                 .filter(scope -> scope.getObjectType().equalsIgnoreCase("orgunit"))
                 .flatMap(scope -> scope.getOrgUnits().stream())
                 .collect(Collectors.toSet());
