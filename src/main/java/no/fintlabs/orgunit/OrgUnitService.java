@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import static no.fintlabs.opa.model.OrgUnitType.ALLORGUNITS;
+
 @Service
 public class OrgUnitService {
 
@@ -28,16 +30,24 @@ public class OrgUnitService {
 
     public List<OrgUnit> searchOrgUnits(String search) {
         Set<String> userOrgUnitIds = extractUserOrgUnitIds();
-        return orgUnitRepository.findOrgUnitsByOrgUnitName(search, userOrgUnitIds);
+        boolean allOrgUnits = hasAllOrgUnits(userOrgUnitIds);
+
+        return allOrgUnits ? orgUnitRepository.findOrgUnitsByOrgUnitName(search) :
+                orgUnitRepository.findOrgUnitsByOrgUnitNameAndOrgUnitIds(search, userOrgUnitIds);
     }
 
     public String getOrgUnitNameByOrgUnitId(String id) {
         Set<String> userOrgUnitIds = extractUserOrgUnitIds();
+        boolean allOrgUnits = hasAllOrgUnits(userOrgUnitIds);
 
         return orgUnitRepository.findByOrganisationUnitIdIgnoreCase(id)
-                .filter(orgUnit -> userOrgUnitIds.contains(orgUnit.getOrganisationUnitId()))
+                .filter(orgUnit -> allOrgUnits || userOrgUnitIds.contains(orgUnit.getOrganisationUnitId()))
                 .map(OrgUnit::getName)
                 .orElse("");
+    }
+
+    private boolean hasAllOrgUnits(Set<String> userOrgUnitIds) {
+        return userOrgUnitIds.contains(ALLORGUNITS.name());
     }
 
     private Runnable onSaveNewOrgUnit(OrgUnit orgUnit) {
@@ -53,7 +63,8 @@ public class OrgUnitService {
 
     private Set<String> extractUserOrgUnitIds() {
         return authorizationClient.getUserScopesList().stream()
-                .filter(scope -> scope.getObjectType().equalsIgnoreCase("orgunit"))
+                .filter(scope -> scope.getObjectType().equalsIgnoreCase(ALLORGUNITS.name()) ||
+                                 scope.getObjectType().equalsIgnoreCase("orgunit"))
                 .flatMap(scope -> scope.getOrgUnits().stream())
                 .collect(Collectors.toSet());
     }
