@@ -42,3 +42,8 @@ springdoc:
   api-docs:
     path: /api/api-docs
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "prometheus,health,info"
