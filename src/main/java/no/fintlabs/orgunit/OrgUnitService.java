@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import static no.fintlabs.opa.model.OrgUnitType.ALLORGUNITS;
+import static no.fintlabs.orgunit.OrgUnitType.ALLORGUNITS;
 
 @Service
 public class OrgUnitService {
