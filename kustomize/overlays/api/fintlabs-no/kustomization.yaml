@@ -23,9 +23,6 @@ patches:
         path: "/spec/env/1/value"
         value: "vigo.no"
       - op: replace
-        path: "/spec/env/2/value"
-        value: "fintlabs-no-fint-kontroll-orgunit-catalog"
-      - op: replace
         path: "/spec/ingress/basePath"
         value: "/fintlabs-no/api/orgunits"
       - op: replace
