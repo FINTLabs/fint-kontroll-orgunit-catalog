@@ -69,7 +69,11 @@ public class OrgUnitService {
         log.info("Menu items: {}", authorizationClient.getMenuItems());
         log.info("User roles: {}", authorizationClient.getUserRoles());
         log.info("Is admin: {}", authorizationClient.isAdmin());
-        return Set.of();
+        return authorizationClient.getUserScopesList().stream()
+                .filter(scope -> scope.getObjectType().equalsIgnoreCase(ALLORGUNITS.name()) ||
+                        scope.getObjectType().equalsIgnoreCase("orgunit"))
+                .flatMap(scope -> scope.getOrgUnits().stream())
+                .collect(Collectors.toSet());
     }
 
 }
