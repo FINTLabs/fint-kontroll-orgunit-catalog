@@ -1,5 +1,6 @@
 package no.fintlabs.orgunit;
 
+import lombok.extern.slf4j.Slf4j;
 import no.fintlabs.opa.AuthorizationClient;
 import no.fintlabs.repository.OrgUnitRepository;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 import static no.fintlabs.orgunit.OrgUnitType.ALLORGUNITS;
 
 @Service
+@Slf4j
 public class OrgUnitService {
 
     private final AuthorizationClient authorizationClient;
@@ -62,6 +64,10 @@ public class OrgUnitService {
     }
 
     private Set<String> extractUserOrgUnitIds() {
+        log.error("Roles: {}", authorizationClient.getRoles());
+        log.error("Menu items: {}", authorizationClient.getMenuItems());
+        log.error("User roles: {}", authorizationClient.getUserRoles());
+        log.error("Is admin: {}", authorizationClient.isAdmin());
         return authorizationClient.getUserScopesList().stream()
                 .filter(scope -> scope.getObjectType().equalsIgnoreCase(ALLORGUNITS.name()) ||
                                  scope.getObjectType().equalsIgnoreCase("orgunit"))
