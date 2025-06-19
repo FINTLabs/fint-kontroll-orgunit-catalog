@@ -14,9 +14,6 @@ commonLabels:
 patches:
   - patch: |-
       - op: replace
-        path: "/spec/orgId"
-        value: "fintlabs.no"
-      - op: replace
         path: "/spec/env/0/value"
         value: "https://role-catalog.vigoiks.no/vigo/kontroll/user"
       - op: replace
