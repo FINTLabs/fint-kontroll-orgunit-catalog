@@ -2,6 +2,7 @@ package no.fintlabs.orgunit;
 
 import lombok.extern.slf4j.Slf4j;
 import no.fintlabs.opa.AuthorizationClient;
+import no.fintlabs.opa.model.AuthRole;
 import no.fintlabs.repository.OrgUnitRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,8 +68,9 @@ public class OrgUnitService {
 
     private Set<String> extractUserOrgUnitIds() {
         log.info("Menu items: {}", authorizationClient.getMenuItems());
-        log.info("User roles: {}", authorizationClient.getUserRoles());
-        log.info("Is admin: {}", authorizationClient.isAdmin());
+        log.info("User roles: {}", authorizationClient.getUserRoles().stream().map(AuthRole::getName).collect(Collectors.toList()));
+        log.info("Admincheck: {}", authorizationClient.isAdmin());
+        log.info("User scopes: {}", authorizationClient.getUserScopesList());
         return authorizationClient.getUserScopesList().stream()
                 .filter(scope -> scope.getObjectType().equalsIgnoreCase(ALLORGUNITS.name()) ||
                         scope.getObjectType().equalsIgnoreCase("orgunit"))
