@@ -64,10 +64,10 @@ public class OrgUnitService {
     }
 
     private Set<String> extractUserOrgUnitIds() {
-        log.error("Roles: {}", authorizationClient.getRoles());
-        log.error("Menu items: {}", authorizationClient.getMenuItems());
-        log.error("User roles: {}", authorizationClient.getUserRoles());
-        log.error("Is admin: {}", authorizationClient.isAdmin());
+        System.out.println("Roles: {}" + authorizationClient.getRoles());
+        System.out.println("Menu items: {}" + authorizationClient.getMenuItems());
+        System.out.println("User roles: {}" + authorizationClient.getUserRoles());
+        System.out.println("Is admin: {}" + authorizationClient.isAdmin());
         return authorizationClient.getUserScopesList().stream()
                 .filter(scope -> scope.getObjectType().equalsIgnoreCase(ALLORGUNITS.name()) ||
                                  scope.getObjectType().equalsIgnoreCase("orgunit"))
