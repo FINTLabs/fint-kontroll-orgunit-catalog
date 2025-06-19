@@ -3,6 +3,8 @@ package no.fintlabs.orgunit;
 import lombok.extern.slf4j.Slf4j;
 import no.fintlabs.opa.AuthorizationClient;
 import no.fintlabs.repository.OrgUnitRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +15,11 @@ import java.util.stream.Collectors;
 import static no.fintlabs.orgunit.OrgUnitType.ALLORGUNITS;
 
 @Service
-@Slf4j
 public class OrgUnitService {
 
     private final AuthorizationClient authorizationClient;
     private final OrgUnitRepository orgUnitRepository;
+    private static final Logger log = LoggerFactory.getLogger(AuthorizationClient.class);
 
     public OrgUnitService(AuthorizationClient authorizationClient, OrgUnitRepository orgUnitRepository) {
         this.authorizationClient = authorizationClient;
@@ -64,15 +66,10 @@ public class OrgUnitService {
     }
 
     private Set<String> extractUserOrgUnitIds() {
-        System.out.println("Roles: {}" + authorizationClient.getRoles());
-        System.out.println("Menu items: {}" + authorizationClient.getMenuItems());
-        System.out.println("User roles: {}" + authorizationClient.getUserRoles());
-        System.out.println("Is admin: {}" + authorizationClient.isAdmin());
-        return authorizationClient.getUserScopesList().stream()
-                .filter(scope -> scope.getObjectType().equalsIgnoreCase(ALLORGUNITS.name()) ||
-                                 scope.getObjectType().equalsIgnoreCase("orgunit"))
-                .flatMap(scope -> scope.getOrgUnits().stream())
-                .collect(Collectors.toSet());
+        log.info("Menu items: {}", authorizationClient.getMenuItems());
+        log.info("User roles: {}", authorizationClient.getUserRoles());
+        log.info("Is admin: {}", authorizationClient.isAdmin());
+        return Set.of();
     }
 
 }
