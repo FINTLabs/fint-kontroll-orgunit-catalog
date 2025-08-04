@@ -51,16 +51,4 @@ public class OrgUnit {
                 .childrenRef(childrenRef)
                 .build();
     }
-
-    public DetaildOrgUnit toDetaildOrgUnit() {
-        return DetaildOrgUnit
-                .builder()
-                .id(id)
-                .name(name)
-                .shortName(shortName)
-                .parentRef(parentRef)
-                .childrenRef(childrenRef)
-                .build();
-
-    }
 }

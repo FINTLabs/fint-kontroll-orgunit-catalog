@@ -16,14 +16,14 @@ public interface OrgUnitRepository extends JpaRepository<OrgUnit,Long> {
 
 
     @Query("""
-           select o from OrgUnit o 
+           select o from OrgUnit o
            where upper(o.name) like upper(concat('%', ?1, '%'))
            and o.organisationUnitId in ?2
            """)
     List<OrgUnit> findOrgUnitsByOrgUnitNameAndOrgUnitIds(String name, Set<String> organisationUnitIds);
 
     @Query("""
-           select o from OrgUnit o 
+           select o from OrgUnit o
            where upper(o.name) like upper(concat('%', ?1, '%'))
            """)
     List<OrgUnit> findOrgUnitsByOrgUnitName(String name);
