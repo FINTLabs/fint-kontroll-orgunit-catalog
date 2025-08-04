@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 @Service
 @Slf4j
@@ -23,19 +22,13 @@ public class HierarchyOrgUnitService {
     public List<HierarchyOrgUnit> getOrgUnitStructure() {
         return orgUnitRepository.findAll()
                 .stream()
-                .map(orgUnit -> {
-                    try {
-                        return createHierarchyOrgUnit(orgUnit);
-                    } catch (ExecutionException | InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .map(this::createHierarchyOrgUnit)
                 .toList();
     }
 
-    public HierarchyOrgUnit createHierarchyOrgUnit(OrgUnit orgUnit) throws ExecutionException, InterruptedException {
+    public HierarchyOrgUnit createHierarchyOrgUnit(OrgUnit orgUnit) {
 
-        HierarchyOrgUnit hierarchyOrgUnit = HierarchyOrgUnit
+        return HierarchyOrgUnit
                 .builder()
                 .id(orgUnit.getId())
                 .name(orgUnit.getName())
@@ -43,11 +36,10 @@ public class HierarchyOrgUnitService {
                 .parentNameAndId(getParentNameAndID(orgUnit.getParentRef()))
                 .childrenNameAndId(getChildrenNamesAndIds(orgUnit.getChildrenRef()))
                 .build();
-        return hierarchyOrgUnit;
     }
 
 
-    private Map<String, String> getParentNameAndID(String parentRef) throws ExecutionException, InterruptedException {
+    private Map<String, String> getParentNameAndID(String parentRef) {
         Map<String, String> parentNameAndId = new HashMap<>();
         String name = orgUnitRepository
                 .findByOrganisationUnitIdIgnoreCase(parentRef)
@@ -57,18 +49,17 @@ public class HierarchyOrgUnitService {
         return parentNameAndId;
     }
 
-    private Map<String,String> getChildrenNamesAndIds(List<String> childrenRef){
-        Map<String,String> childNameAndId = new HashMap<>();
+    private Map<String, String> getChildrenNamesAndIds(List<String> childrenRef) {
+        Map<String, String> childNameAndId = new HashMap<>();
         List<String> childrenName = childrenRef
                 .stream()
                 .map(orgUnitService::getOrgUnitNameByOrgUnitId)
                 .toList();
-        for (int i = 0;i<childrenRef.size();i++){
-            childNameAndId.put(childrenRef.get(i),childrenName.get(i));
+        for (int i = 0; i < childrenRef.size(); i++) {
+            childNameAndId.put(childrenRef.get(i), childrenName.get(i));
         }
         return childNameAndId;
     }
-
 
 
 }

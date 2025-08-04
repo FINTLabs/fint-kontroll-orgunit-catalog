@@ -34,7 +34,7 @@ public class OrgUnitController {
     public ResponseEntity<Map<String,Object>> getOrgUnits(@AuthenticationPrincipal Jwt jwt,
                                                           @RequestParam(value = "search", defaultValue = "%") String search,
                                                           @RequestParam(value="page", defaultValue = "0") int page,
-                                                          @RequestParam(value="size", defaultValue = "${fint.kontroll.orgunit-catalog.pagesize:20}") int size){
+                                                          @RequestParam(value="size", defaultValue = "${fint.kontroll.orgunit-catalog.pagesize:20}") int size) {
         log.info("Fetching orgunits with searchparam: " + search);
 
         List<OrgUnit> orgUnitsByOrgUnitName = orgUnitService.searchOrgUnits(search);

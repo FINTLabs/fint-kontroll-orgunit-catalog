@@ -9,6 +9,7 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 
 @Configuration
 public class OrgUnitConsumerConfiguration {
+
     @Bean
     public ConcurrentMessageListenerContainer<String, OrgUnit> orgUnitConsumer(
             OrgUnitService orgUnitService,
