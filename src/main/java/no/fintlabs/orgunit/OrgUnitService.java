@@ -46,6 +46,14 @@ public class OrgUnitService {
                 .orElse("");
     }
 
+    public List<OrgUnit> getParentOrgUnits(Long id) {
+        return orgUnitRepository.findParentOrgUnitsByOrganisationUnitId(id);
+    }
+
+    public List<OrgUnit> getChildrenOrgUnits(Long id) {
+        return orgUnitRepository.findChildrenOrgUnitsByOrganisationUnitId(id);
+    }
+
     private boolean hasAllOrgUnits(Set<String> userOrgUnitIds) {
         return userOrgUnitIds.contains(ALLORGUNITS.name());
     }
@@ -68,5 +76,4 @@ public class OrgUnitService {
                 .flatMap(scope -> scope.getOrgUnits().stream())
                 .collect(Collectors.toSet());
     }
-
 }
