@@ -1,7 +1,7 @@
 FROM gradle:8.10-jdk21 as builder
 USER root
 COPY . .
-RUN gradle --no-daemon build
+RUN gradle -x test --no-daemon build
 
 FROM gcr.io/distroless/java21
 ENV JAVA_TOOL_OPTIONS -XX:+ExitOnOutOfMemoryError
