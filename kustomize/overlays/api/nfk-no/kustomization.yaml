@@ -23,6 +23,12 @@ patches:
         path: "/spec/env/1/value"
         value: "nfk.no"
       - op: replace
+        path: "/spec/env/2/value"
+        value: "nfk-no-fint-kontroll-orgunit-catalog"
+      - op: replace
+        path: "/spec/env/3/value"
+        value: "nfk-no"
+      - op: replace
         path: "/spec/kafka/acls/0/topic"
         value: "nfk-no.kontroll.*"
       - op: replace

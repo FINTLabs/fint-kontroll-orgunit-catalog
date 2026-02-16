@@ -1,32 +1,61 @@
 package no.fintlabs.orgunit;
 
-import no.fintlabs.kafka.entity.EntityConsumerFactoryService;
-import no.fintlabs.kafka.entity.topic.EntityTopicNameParameters;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
+import no.novari.kafka.consuming.ErrorHandlerConfiguration;
+import no.novari.kafka.consuming.ErrorHandlerFactory;
+import no.novari.kafka.consuming.ListenerConfiguration;
+import no.novari.kafka.consuming.ParameterizedListenerContainerFactoryService;
+import no.novari.kafka.topic.name.EntityTopicNameParameters;
+import no.novari.kafka.topic.name.TopicNamePrefixParameters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 
 @Configuration
 public class OrgUnitConsumerConfiguration {
+    private final ParameterizedListenerContainerFactoryService parameterizedListenerContainerFactoryService;
+    private final ErrorHandlerFactory errorHandlerFactory;
+    public OrgUnitConsumerConfiguration(
+            ParameterizedListenerContainerFactoryService parameterizedListenerContainerFactoryService,
+            ErrorHandlerFactory errorHandlerFactory) {
+        this.parameterizedListenerContainerFactoryService = parameterizedListenerContainerFactoryService;
+        this.errorHandlerFactory = errorHandlerFactory;
+    }
 
     @Bean
     public ConcurrentMessageListenerContainer<String, OrgUnit> orgUnitConsumer(
-            OrgUnitService orgUnitService,
-            EntityConsumerFactoryService entityConsumerFactoryService
+            OrgUnitService orgUnitService
     ){
-        EntityTopicNameParameters entityTopicNameParameters = EntityTopicNameParameters
-                .builder()
-                .resource("orgunit")
+        ListenerConfiguration listenerConfiguration = ListenerConfiguration
+                .stepBuilder()
+                .groupIdApplicationDefault()
+                .maxPollRecordsKafkaDefault()
+                .maxPollIntervalKafkaDefault()
+                .seekToBeginningOnAssignment()
                 .build();
 
-        ConcurrentMessageListenerContainer container = entityConsumerFactoryService.createFactory(
+
+        ConcurrentMessageListenerContainer<String, OrgUnit> listenerContainer = parameterizedListenerContainerFactoryService.createRecordListenerContainerFactory(
                         OrgUnit.class,
-                        (ConsumerRecord<String,OrgUnit> consumerRecord)
-                                -> orgUnitService.save(consumerRecord.value()))
-                .createContainer(entityTopicNameParameters);
+                       consumerRecord -> {
+                            OrgUnit orgUnit = consumerRecord.value();
+                            orgUnitService.save(orgUnit);
+                        },
+                listenerConfiguration,
+                errorHandlerFactory.createErrorHandler(ErrorHandlerConfiguration
+                        .stepBuilder()
+                        .noRetries()
+                        .skipFailedRecords()
+                        .build())
+        ).createContainer(EntityTopicNameParameters
+                        .builder()
+                        .topicNamePrefixParameters(TopicNamePrefixParameters
+                                .stepBuilder()
+                                .orgIdApplicationDefault()
+                                .domainContextApplicationDefault()
+                                .build())
+                        .resourceName("orgunit")
+                        .build());
 
-        return container;
-
+        return listenerContainer;
     }
 }

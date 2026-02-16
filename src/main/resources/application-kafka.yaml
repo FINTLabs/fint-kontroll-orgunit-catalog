@@ -9,3 +9,10 @@ spring:
     consumer:
       group-id: ${fint.application-id}
 
+novari:
+  kafka:
+    default-replicas: 1
+    topic:
+      domain-context: kontroll
+      org-id: fintlabs-no #Husk å overstyre
+    application-id: ${fint.org-id}

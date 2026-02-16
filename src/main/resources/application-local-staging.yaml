@@ -7,6 +7,7 @@ fint:
   client:
     base-url: https://beta.felleskomponent.no
   application-id: fint-kontroll-orgunit-catalog
+
   kafka:
     default-replicas: 1
     topic:
@@ -38,6 +39,13 @@ spring:
     #baselineOnMigrate: true
 server:
   port: 8081
+novari:
+  kafka:
+    default-replicas: 1
+    topic:
+      domain-context: kontroll
+      org-id: fintlabs-no
+    application-id: ${fint.org-id}
 
 springdoc:
   swagger-ui:
