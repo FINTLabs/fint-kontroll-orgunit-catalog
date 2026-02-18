@@ -5,13 +5,12 @@ import no.fintlabs.orgunit.ResponseFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+
+import static org.apache.commons.lang3.math.NumberUtils.max;
 
 @RestController
 @Slf4j
@@ -40,5 +39,26 @@ public class OrgUnitController {
         List<OrgUnit> orgUnitsByOrgUnitName = orgUnitService.searchOrgUnits(search);
 
         return ResponseFactory.toResponseEntity(orgUnitsByOrgUnitName,page,size);
+    }
+    @GetMapping("/{id}/parents" )
+    public ResponseEntity<Map<String,Object>> getParentOrgUnits(@AuthenticationPrincipal Jwt jwt, @PathVariable("id") Long id){
+        log.info("Fetching parent org units for orgunit: {}", id);
+
+        List<OrgUnit> parentOrgUnits = orgUnitService.getParentOrgUnits(id);
+        log.info("Found {} parent org units for orgunit {}: {}", parentOrgUnits.size(), id, parentOrgUnits.stream().map(OrgUnit::getId).toList());
+
+        return ResponseFactory.toResponseEntity(parentOrgUnits, 0, max(parentOrgUnits.size(),1));
+    }
+    @GetMapping("/{id}/children" )
+    public ResponseEntity<Map<String,Object>> getChildrenOrgUnits(@AuthenticationPrincipal Jwt jwt,
+                                                                  @PathVariable("id") Long id
+    ){
+        log.info("Fetching children org units for orgunit: {}", id);
+
+        List<OrgUnit> childrenOrgUnits = orgUnitService.getChildrenOrgUnits(id);
+        log.info("Found {} children org units for orgunit {}", childrenOrgUnits.size(), id);
+        log.debug("Children org units: {}", childrenOrgUnits.stream().map(OrgUnit::getId).toList());
+
+        return ResponseFactory.toResponseEntity(childrenOrgUnits, 0, max(childrenOrgUnits.size(),1));
     }
 }
