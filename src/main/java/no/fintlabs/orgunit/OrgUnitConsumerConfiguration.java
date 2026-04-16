@@ -30,7 +30,7 @@ public class OrgUnitConsumerConfiguration {
                 .groupIdApplicationDefault()
                 .maxPollRecordsKafkaDefault()
                 .maxPollIntervalKafkaDefault()
-                .seekToBeginningOnAssignment()
+                .continueFromPreviousOffsetOnAssignment()
                 .build();
 
 
