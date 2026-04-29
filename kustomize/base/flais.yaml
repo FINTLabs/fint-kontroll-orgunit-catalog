@@ -32,6 +32,8 @@ spec:
       value: "vigo.no"
     - name: spring.kafka.consumer.group-id
       value: 'fint-kontroll-orgunit-catalog'
+    - name: novari.kafka.topic.org-id
+      value: 'orgid med space'
 
   envFrom:
     - configMapRef:
